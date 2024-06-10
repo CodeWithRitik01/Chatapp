@@ -17,14 +17,11 @@ const newUser = async(req, res, next) =>{
         if(!file) return next(new ErrorHandler("Please upload avatar"))
 
         const result = await uploadFilesToCloudinary([file]);
-        console.log(result, "yoyyo")
     
        const avatar = {
         public_id: result[0].public_id,
         url: result[0].url,
        };
-
-       console.log(avatar, "dfjd")
     
        const user = await User.create({
         name,
@@ -35,7 +32,6 @@ const newUser = async(req, res, next) =>{
        })
     
        sendToken(res, user, 201, "User created");
-    //    res.status(201).json({message: "User created successfully"});
     }catch(err){
        console.log(err);
     }
@@ -46,7 +42,6 @@ const newUser = async(req, res, next) =>{
 const login =async (req, res, next) =>{
   
         const {username, password} = req.body;
-        console.log(username, password)
 
         //used select because in model it is defined as select=false
         const user = await User.findOne({username}).select("+password");
